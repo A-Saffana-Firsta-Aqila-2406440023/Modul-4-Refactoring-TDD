@@ -15,13 +15,32 @@ public class Payment {
         this.id = id;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = "PENDING";
+
+        if ("VOUCHER".equals(method)) {
+            this.status = validateVoucher() ? "SUCCESS" : "REJECTED";
+        } else if ("CASH_ON_DELIVERY".equals(method)) {
+            this.status = validateCOD() ? "SUCCESS" : "REJECTED";
+        } else {
+            this.status = "REJECTED";
+        }
     }
 
-    public void setStatus(String status) {
-        if (!status.equals("SUCCESS") && !status.equals("REJECTED") && !status.equals("PENDING")) {
-            throw new IllegalArgumentException();
+    private boolean validateVoucher() {
+        String voucherCode = paymentData.get("voucherCode");
+
+        if (voucherCode == null || voucherCode.length() != 16 || !voucherCode.startsWith("ESHOP")) {
+            return false;
         }
-        this.status = status;
+
+        long digitCount = voucherCode.chars().filter(Character::isDigit).count();
+        return digitCount == 8;
+    }
+
+    private boolean validateCOD() {
+        String address = paymentData.get("address");
+        String deliveryFee = paymentData.get("deliveryFee");
+
+        return address != null && !address.trim().isEmpty() &&
+                deliveryFee != null && !deliveryFee.trim().isEmpty();
     }
 }
