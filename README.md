@@ -34,7 +34,6 @@ After writing unit tests, I feel much more secure knowing that my code has a bas
 <details>
 <summary>Modul 2</summary>
 
-# Reflection
 ## Code Quality Issues and Fix Strategy
 I used **SonarCloud** to help analyze various issues in my codebase. Here are the specific issues detected and how I solved them:
 
@@ -52,8 +51,7 @@ Yes, the current implementation has met the definition of both Continuous Integr
 <details>
 <summary>Modul 3</summary>
 
-# Reflection
-# Explain what principles you apply to your project!
+## Explain what principles you apply to your project!
 1. Single Responsibility Principle (SRP)
    - What was changed: Separated CarController from the ProductController.java file into its own standalone CarController.java file.
    - Why it was changed: Previously, ProductController was handling two different domains (Product and Car). By isolating them, each controller now has a single responsibility: managing its own specific entity.
@@ -74,11 +72,27 @@ Yes, the current implementation has met the definition of both Continuous Integr
    - Why it was changed: High-level modules should not depend on low-level implementation details; both should depend on abstractions. By using the interface, the controller remains decoupled from the specific implementation of how cars are processed. This allows for easier testing (mocking) and makes it possible to swap the service implementation without touching the controller code.
 
   
-# Explain the advantages of applying SOLID principles to your project with examples.
+## Explain the advantages of applying SOLID principles to your project with examples.
 - By applying SOLID principles, our project has become significantly more maintainable and robust against changing requirements. We have successfully achieved loose coupling between components, ensuring that a modification in one part of the system doesn't trigger a cascade of bugs elsewhere. Furthermore, this approach enhances our project's testability because classes are smaller and depend on abstractions, allowing us to easily swap real implementations with mocks during unit testing. 
 - One example: (LSP) By removing the CarController extends ProductController inheritance, we ensured that CarController doesn't inherit irrelevant behaviors. This prevents logic errors where our methods might expect one behavior but receive another.
 
-# Explain the disadvantages of not applying SOLID principles to your project with examples.
+## Explain the disadvantages of not applying SOLID principles to your project with examples.
 - Without SOLID principles, our project would likely turn into "Spaghetti Code," where different functionalities are so tightly interwoven that they become difficult to untangle. This leads to Rigidity, where even a small feature request would require us to perform massive refactorings across multiple files due to hidden dependencies. Over time, our technical debt would grow so large that we would become hesitant to update the code, as every change would risk breaking unrelated parts of the application.
 - One example: (ISP): A "Fat Interface" would have forced our CarController to acknowledge or even implement Product-related methods that it doesn't actually need, cluttering our implementation.
+
+</details>
+
+<details>
+<summary>Modul 4</summary>
+
+## Reflection on TDD Workflow
+The TDD flow was actually pretty useful for me in this module because writing tests first forced me to figure out the code's purpose upfront. This really helped me avoid getting confused later, especially when juggling all the conditions for voucher validation and linking payment statuses to orders. Following the RED-GREEN-REFACTOR cycle kept me focused on writing only the exact code needed to make a test pass. Without this approach, I probably would have overcomplicated the logic or completely missed some important edge cases.
+
+## Reflection on F.I.R.S.T. Principles
+- **Fast**: My unit tests run fast because I used `Mockito` to handle external dependencies like the repository. Since there is no real database connection, the feedback is basically instant. 
+- **Independent**: I made sure every test stands completely on its own by using the `@BeforeEach` annotation to set up fresh data. Because of this, the outcome of one test never accidentally messes up the results of another. 
+- **Repeatable**: Since all the external parts are mocked, the tests give the exact same result every single time. This makes debugging way less stressful because a failed test actually means my code is broken, not the setup. 
+- **Self-Validating**: I don't have to manually check if a test worked because I used clear assertions like `assertEquals` and `assertThrows`. The test suite automatically tells me if it passed or failed right away. 
+- **Timely**: Because I actually stuck to the TDD rules, I wrote all these tests right before writing the production code. This is exactly when they are supposed to be written so they can effectively guide the actual development.
+- 
 </details>
