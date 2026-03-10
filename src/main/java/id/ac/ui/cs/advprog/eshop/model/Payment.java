@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import lombok.Getter;
 
 import java.util.Map;
@@ -17,11 +18,11 @@ public class Payment {
         this.paymentData = paymentData;
 
         if ("VOUCHER".equals(method)) {
-            this.status = validateVoucher() ? "SUCCESS" : "REJECTED";
+            this.status = validateVoucher() ? PaymentStatus.SUCCESS.getValue() : PaymentStatus.REJECTED.getValue();
         } else if ("CASH_ON_DELIVERY".equals(method)) {
-            this.status = validateCOD() ? "SUCCESS" : "REJECTED";
+            this.status = validateCOD() ? PaymentStatus.SUCCESS.getValue() : PaymentStatus.REJECTED.getValue();
         } else {
-            this.status = "REJECTED";
+            this.status = PaymentStatus.REJECTED.getValue();
         }
     }
 
